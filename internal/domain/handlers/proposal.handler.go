@@ -7,8 +7,14 @@ import (
 	"github.com/GuilhermeReisOlinto/buscar_emprestimo/internal/infra/repository"
 )
 
-func HandlerProposals(id_cliente int, w http.ResponseWriter) ([]entities.AnalisysProposal, error) {
-	proposals, err := repository.GetProposals(id_cliente)
+type Proposals interface {
+	Proposals(client_id int, w http.ResponseWriter) ([]entities.AnalisysProposal, error)
+}
+
+type HandlerProposals struct{}
+
+func (hp HandlerProposals) Proposals(client_id int, w http.ResponseWriter) ([]entities.AnalisysProposal, error) {
+	proposals, err := repository.GetProposals(client_id)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return nil, err
