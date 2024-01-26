@@ -8,7 +8,7 @@ import (
 	"github.com/GuilhermeReisOlinto/buscar_emprestimo/internal/infra/entities"
 )
 
-func GetLoans(cpf string) (clients []entities.Client, err error) {
+func GetClient(cpf string) (clientData []entities.Client, err error) {
 	conn := databases.Connection()
 	defer conn.Close()
 
@@ -24,12 +24,12 @@ func GetLoans(cpf string) (clients []entities.Client, err error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		var cliente entities.Client
-		if err := rows.Scan(&cliente.Id_cliente, &cliente.Nome); err != nil {
+		var client entities.Client
+		if err := rows.Scan(&client.Client_id, &client.Name); err != nil {
 			continue
 		}
-		clients = append(clients, cliente)
+		clientData = append(clientData, client)
 	}
 
-	return clients, nil
+	return clientData, nil
 }
