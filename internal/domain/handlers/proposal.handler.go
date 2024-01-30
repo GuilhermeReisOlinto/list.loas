@@ -14,7 +14,9 @@ type Proposals interface {
 type HandlerProposals struct{}
 
 func (hp HandlerProposals) Proposals(client_id int, w http.ResponseWriter) ([]entities.AnalisysProposal, error) {
-	proposals, err := repository.GetProposals(client_id)
+
+	proposalRepository := repository.Proposal{}
+	proposals, err := proposalRepository.Get(client_id)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return nil, err
@@ -25,7 +27,9 @@ func (hp HandlerProposals) Proposals(client_id int, w http.ResponseWriter) ([]en
 	for i := 0; i < len(proposals); i++ {
 		value := proposals[i]
 
-		analysis, err := repository.GetAnalisys(value.Proposal_id)
+		analysisRepository := repository.Analysis{}
+
+		analysis, err := analysisRepository.Get(value.Proposal_id)
 		if err != nil {
 			continue
 		}

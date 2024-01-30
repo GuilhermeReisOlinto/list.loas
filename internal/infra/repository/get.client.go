@@ -8,7 +8,13 @@ import (
 	"github.com/GuilhermeReisOlinto/buscar_emprestimo/internal/infra/entities"
 )
 
-func GetClient(cpf string) (clientData []entities.Client, err error) {
+type IClient interface {
+	Get(cpf string) (clientData []entities.Client, err error)
+}
+
+type Client struct{}
+
+func (c Client) Get(cpf string) (clientData []entities.Client, err error) {
 	conn := databases.Connection()
 	defer conn.Close()
 

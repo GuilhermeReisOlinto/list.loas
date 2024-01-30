@@ -17,7 +17,9 @@ type HandlerClient struct{}
 func (hc HandlerClient) Client(w http.ResponseWriter, r *http.Request) {
 	cpf := chi.URLParam(r, "cpf")
 
-	clients, err := repository.GetClient(cpf)
+	clientRepository := repository.Client{}
+
+	clients, err := clientRepository.Get(cpf)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return

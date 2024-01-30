@@ -8,7 +8,13 @@ import (
 	"github.com/GuilhermeReisOlinto/buscar_emprestimo/internal/infra/entities"
 )
 
-func GetAnalisys(proposal_id int) ([]entities.AnalisysProposal, error) {
+type IAnalysis interface {
+	Get(proposal_id int) ([]entities.AnalisysProposal, error)
+}
+
+type Analysis struct{}
+
+func (a Analysis) Get(proposal_id int) ([]entities.AnalisysProposal, error) {
 	conn := databases.Connection()
 
 	if conn == nil {

@@ -9,7 +9,13 @@ import (
 	"github.com/GuilhermeReisOlinto/buscar_emprestimo/internal/infra/entities"
 )
 
-func GetProposals(client_id int) ([]entities.Proposal, error) {
+type IProposals interface {
+	Get(client_id int) ([]entities.Proposal, error)
+}
+
+type Proposal struct{}
+
+func (p Proposal) Get(client_id int) ([]entities.Proposal, error) {
 	conn := databases.Connection()
 
 	if conn == nil {
