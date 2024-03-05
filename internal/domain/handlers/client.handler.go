@@ -1,9 +1,10 @@
 package handlers
 
 import (
-	"encoding/json"
+	"fmt"
 	"net/http"
 
+	"github.com/GuilhermeReisOlinto/buscar_emprestimo/internal/domain/entities"
 	"github.com/GuilhermeReisOlinto/buscar_emprestimo/internal/infra/repository"
 	"github.com/go-chi/chi"
 )
@@ -34,6 +35,9 @@ func (hc HandlerClient) Client(w http.ResponseWriter, r *http.Request) {
 	handlerProposals := HandlerProposals{}
 	analysisData, _ := handlerProposals.Proposals(client_id, w)
 
-	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(analysisData)
+	entitiesStatus := entities.EntitiesStatus{}
+	status, _ := entitiesStatus.List(analysisData)
+	fmt.Println(status)
+	// w.Header().Add("Content-Type", "application/json")
+	// json.NewEncoder(w).Encode(status)
 }

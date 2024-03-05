@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/GuilhermeReisOlinto/buscar_emprestimo/internal/presentation"
+	"github.com/GuilhermeReisOlinto/buscar_emprestimo/internal/presentation/controller"
 	"github.com/go-chi/chi"
 	"github.com/joho/godotenv"
 )
@@ -18,7 +18,7 @@ func main() {
 
 	r := chi.NewRouter()
 
-	presentation.PresentationList(r)
+	controller.PresentationList(r)
 
 	fmt.Println("Aplication functionally.")
 	http.ListenAndServe(":8083", r)
