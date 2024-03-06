@@ -23,7 +23,7 @@ func (p Proposal) Get(client_id int) ([]entities.Proposal, error) {
 	}
 	defer conn.Close()
 
-	rows, err := conn.Query("SELECT id_proposta, contrato FROM cad_proposta WHERE id_cliente=$1", client_id)
+	rows, err := conn.Query("SELECT id_proposta, contrato, id_forma_inclusao FROM cad_proposta WHERE id_cliente=$1", client_id)
 	if err != nil {
 		return nil, fmt.Errorf("Error in proposal query: %v", err)
 	}
@@ -35,7 +35,7 @@ func (p Proposal) Get(client_id int) ([]entities.Proposal, error) {
 		var proposal entities.Proposal
 		var contract sql.NullString
 
-		err := rows.Scan(&proposal.Proposal_id, &contract)
+		err := rows.Scan(&proposal.Proposal_id, &contract, &proposal.Inclusion_form_id)
 		if err != nil {
 			return nil, fmt.Errorf("Error scanning row: %v", err)
 		}

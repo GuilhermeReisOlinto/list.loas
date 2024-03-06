@@ -23,7 +23,7 @@ func (a Analysis) Get(proposal_id int) ([]entities.AnalisysProposal, error) {
 
 	defer conn.Close()
 
-	rows, err := conn.Query("SELECT id_analise_proposta, id_status_analise_proposta FROM cad_analise_proposta WHERE id_proposta=$1", proposal_id)
+	rows, err := conn.Query("SELECT id_analise_proposta, id_status_analise_proposta, id_proposta FROM cad_analise_proposta WHERE id_proposta=$1", proposal_id)
 	if err != nil {
 		return nil, fmt.Errorf("Error in analysis query: %v", err)
 	}
@@ -35,7 +35,7 @@ func (a Analysis) Get(proposal_id int) ([]entities.AnalisysProposal, error) {
 	for rows.Next() {
 		var analysis entities.AnalisysProposal
 
-		if err = rows.Scan(&analysis.Analisys_proposal_id, &analysis.Status_proposal); err != nil {
+		if err = rows.Scan(&analysis.Analisys_proposal_id, &analysis.Status_proposal, &analysis.Proposal_id); err != nil {
 			continue
 		}
 
